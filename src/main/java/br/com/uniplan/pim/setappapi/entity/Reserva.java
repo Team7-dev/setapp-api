@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "VISITANTE")
-public class Visitante {
+@Table(name = "RESERVA")
+public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,22 +16,22 @@ public class Visitante {
     @Column(name = "DATA_HORA_CADASTRO")
     private Date dataHoraCadastro;
 
-    @Column(name = "DATA_HORA_AGENDAMENTO")
-    private Date dataHoraAgendamento;
+    @Column(name = "DATA_HORA_INICIO")
+    private Date dataHoraInicio;
 
-    @Column(name = "DATA_HORA_EXPIRACAO")
-    private Date dataHoraExpiracao;
+    @Column(name = "DATA_HORA_FIM")
+    private Date dataHoraFim;
 
     @Column(name = "STATUS")
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_AUTORIZADOR")
-    private Pessoa autorizador;
+    @JoinColumn(name = "ID_PESSOA")
+    private Pessoa pessoa;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_VISITANTE")
-    private Pessoa visitante;
+    @JoinColumn(name = "TIPO_RESERVA")
+    private TipoReserva tipoReserva;
 
     public Long getId() {
         return id;
@@ -49,20 +49,20 @@ public class Visitante {
         this.dataHoraCadastro = dataHoraCadastro;
     }
 
-    public Date getDataHoraAgendamento() {
-        return dataHoraAgendamento;
+    public Date getDataHoraInicio() {
+        return dataHoraInicio;
     }
 
-    public void setDataHoraAgendamento(Date dataHoraAgendamento) {
-        this.dataHoraAgendamento = dataHoraAgendamento;
+    public void setDataHoraInicio(Date dataHoraInicio) {
+        this.dataHoraInicio = dataHoraInicio;
     }
 
-    public Date getDataHoraExpiracao() {
-        return dataHoraExpiracao;
+    public Date getDataHoraFim() {
+        return dataHoraFim;
     }
 
-    public void setDataHoraExpiracao(Date dataHoraExpiracao) {
-        this.dataHoraExpiracao = dataHoraExpiracao;
+    public void setDataHoraFim(Date dataHoraFim) {
+        this.dataHoraFim = dataHoraFim;
     }
 
     public String getStatus() {
@@ -73,27 +73,27 @@ public class Visitante {
         this.status = status;
     }
 
-    public Pessoa getAutorizador() {
-        return autorizador;
+    public Pessoa getPessoa() {
+        return pessoa;
     }
 
-    public void setAutorizador(Pessoa autorizador) {
-        this.autorizador = autorizador;
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
     }
 
-    public Pessoa getVisitante() {
-        return visitante;
+    public TipoReserva getTipoReserva() {
+        return tipoReserva;
     }
 
-    public void setVisitante(Pessoa visitante) {
-        this.visitante = visitante;
+    public void setTipoReserva(TipoReserva tipoReserva) {
+        this.tipoReserva = tipoReserva;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Visitante visitante = (Visitante) o;
+        Reserva visitante = (Reserva) o;
         return Objects.equals(id, visitante.id);
     }
 
