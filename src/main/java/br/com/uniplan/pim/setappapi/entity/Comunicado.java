@@ -1,5 +1,7 @@
 package br.com.uniplan.pim.setappapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -13,24 +15,22 @@ public class Comunicado {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "DATA_HORA_CADASTRO")
+    private Date dataHoraCadastro;
+
     @Column(name = "TITULO")
     private String titulo;
 
     @Column(name = "DESCRICAO")
     private String descricao;
 
-    @Column(name = "DATA_HORA_CADASTRO")
-    private Date dataHoraCadastro;
-
-    @Column(name = "DATA_HORA_EXPIRACAO")
-    private Date dataHoraExpiracao;
-
-    @Column(name = "ATIVO")
-    private Integer ativo;
+    @Column(name = "SITUACAO")
+    private String situacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_PESSOA")
-    private Pessoa pessoa;
+    @JoinColumn(name = "USUARIO_ID")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -38,6 +38,14 @@ public class Comunicado {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getDataHoraCadastro() {
+        return dataHoraCadastro;
+    }
+
+    public void setDataHoraCadastro(Date dataHoraCadastro) {
+        this.dataHoraCadastro = dataHoraCadastro;
     }
 
     public String getTitulo() {
@@ -56,36 +64,20 @@ public class Comunicado {
         this.descricao = descricao;
     }
 
-    public Date getDataHoraCadastro() {
-        return dataHoraCadastro;
+    public String getSituacao() {
+        return situacao;
     }
 
-    public void setDataHoraCadastro(Date dataHoraCadastro) {
-        this.dataHoraCadastro = dataHoraCadastro;
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 
-    public Date getDataHoraExpiracao() {
-        return dataHoraExpiracao;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setDataHoraExpiracao(Date dataHoraExpiracao) {
-        this.dataHoraExpiracao = dataHoraExpiracao;
-    }
-
-    public Integer getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(Integer ativo) {
-        this.ativo = ativo;
-    }
-
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override

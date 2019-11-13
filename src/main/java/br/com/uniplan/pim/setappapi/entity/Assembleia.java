@@ -1,5 +1,7 @@
 package br.com.uniplan.pim.setappapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -16,25 +18,22 @@ public class Assembleia {
     @Column(name = "DATA_HORA_CADASTRO")
     private Date dataHoraCadastro;
 
-    @Column(name = "DATA_HORA_AGENDADO")
-    private Date dataHoraAgendado;
+    @Column(name = "MOTIVO")
+    private String motivo;
 
-    @Column(name = "DATA_HORA_REALIZADO")
-    private Date dataHoraRealizado;
+    @Column(name = "DATA_HORA_AGENDAMENTO")
+    private Date dataHoraAgendamento;
 
-    @Column(name = "DATA_HORA_CONCLUIDO")
-    private Date dataHoraConcluido;
+    @Column(name = "DATA_HORA_CONCLUSAO")
+    private Date dataHoraConclusao;
 
-    @Column(name = "STATUS")
-    private String status;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_PESSOA")
-    private Pessoa pessoa;
+    @Column(name = "SITUACAO")
+    private String situacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TIPO_ASSEMBLEIA")
-    private TipoAssembleia tipoAssembleia;
+    @JoinColumn(name = "USUARIO_ID")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -52,52 +51,44 @@ public class Assembleia {
         this.dataHoraCadastro = dataHoraCadastro;
     }
 
-    public Date getDataHoraAgendado() {
-        return dataHoraAgendado;
+    public String getMotivo() {
+        return motivo;
     }
 
-    public void setDataHoraAgendado(Date dataHoraAgendado) {
-        this.dataHoraAgendado = dataHoraAgendado;
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
     }
 
-    public Date getDataHoraRealizado() {
-        return dataHoraRealizado;
+    public Date getDataHoraAgendamento() {
+        return dataHoraAgendamento;
     }
 
-    public void setDataHoraRealizado(Date dataHoraRealizado) {
-        this.dataHoraRealizado = dataHoraRealizado;
+    public void setDataHoraAgendamento(Date dataHoraAgendamento) {
+        this.dataHoraAgendamento = dataHoraAgendamento;
     }
 
-    public Date getDataHoraConcluido() {
-        return dataHoraConcluido;
+    public Date getDataHoraConclusao() {
+        return dataHoraConclusao;
     }
 
-    public void setDataHoraConcluido(Date dataHoraConcluido) {
-        this.dataHoraConcluido = dataHoraConcluido;
+    public void setDataHoraConclusao(Date dataHoraConclusao) {
+        this.dataHoraConclusao = dataHoraConclusao;
     }
 
-    public String getStatus() {
-        return status;
+    public String getSituacao() {
+        return situacao;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
-    }
-
-    public TipoAssembleia getTipoAssembleia() {
-        return tipoAssembleia;
-    }
-
-    public void setTipoAssembleia(TipoAssembleia tipoAssembleia) {
-        this.tipoAssembleia = tipoAssembleia;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override

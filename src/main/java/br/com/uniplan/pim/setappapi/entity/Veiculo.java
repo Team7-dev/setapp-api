@@ -1,6 +1,9 @@
 package br.com.uniplan.pim.setappapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -12,18 +15,21 @@ public class Veiculo {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "DESCRICAO")
-    private String descricao;
+    @Column(name = "DATA_HORA_CADASTRO")
+    private Date dataHoraCadastro;
 
-    @Column(name = "VAGA")
-    private String vaga;
+    @Column(name = "SITUACAO")
+    private String situacao;
 
-    @Column(name = "ATIVO")
-    private Integer ativo;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UNIDADE_ID")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Unidade unidade;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_PESSOA")
-    private Pessoa pessoa;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USUARIO_ID")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -33,36 +39,36 @@ public class Veiculo {
         this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public Date getDataHoraCadastro() {
+        return dataHoraCadastro;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDataHoraCadastro(Date dataHoraCadastro) {
+        this.dataHoraCadastro = dataHoraCadastro;
     }
 
-    public String getVaga() {
-        return vaga;
+    public String getSituacao() {
+        return situacao;
     }
 
-    public void setVaga(String vaga) {
-        this.vaga = vaga;
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 
-    public Integer getAtivo() {
-        return ativo;
+    public Unidade getUnidade() {
+        return unidade;
     }
 
-    public void setAtivo(Integer ativo) {
-        this.ativo = ativo;
+    public void setUnidade(Unidade unidade) {
+        this.unidade = unidade;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override

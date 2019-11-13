@@ -1,5 +1,7 @@
 package br.com.uniplan.pim.setappapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -13,24 +15,19 @@ public class Boleto {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "CODIGO_BOLETO")
-    private String codigoBoleto;
-
-    @Column(name = "DATA_HORA_GERADO")
-    private Date dataHoraGerado;
-
-    @Column(name = "DATA_HORA_VENCIMENTO")
-    private Date dataHoraVencimento;
+    @Column(name = "DATA_HORA_CADASTRO")
+    private Date dataHoraCadastro;
 
     @Column(name = "ARQUIVO")
     private String arquivo;
 
-    @Column(name = "ATIVO")
-    private Integer ativo;
+    @Column(name = "SITUACAO")
+    private String situacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_PAGAMENTO")
-    private FolhaPagamento folhaPagamento;
+    @JoinColumn(name = "USUARIO_ID")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -40,28 +37,12 @@ public class Boleto {
         this.id = id;
     }
 
-    public String getCodigoBoleto() {
-        return codigoBoleto;
+    public Date getDataHoraCadastro() {
+        return dataHoraCadastro;
     }
 
-    public void setCodigoBoleto(String codigoBoleto) {
-        this.codigoBoleto = codigoBoleto;
-    }
-
-    public Date getDataHoraGerado() {
-        return dataHoraGerado;
-    }
-
-    public void setDataHoraGerado(Date dataHoraGerado) {
-        this.dataHoraGerado = dataHoraGerado;
-    }
-
-    public Date getDataHoraVencimento() {
-        return dataHoraVencimento;
-    }
-
-    public void setDataHoraVencimento(Date dataHoraVencimento) {
-        this.dataHoraVencimento = dataHoraVencimento;
+    public void setDataHoraCadastro(Date dataHoraCadastro) {
+        this.dataHoraCadastro = dataHoraCadastro;
     }
 
     public String getArquivo() {
@@ -72,20 +53,20 @@ public class Boleto {
         this.arquivo = arquivo;
     }
 
-    public Integer getAtivo() {
-        return ativo;
+    public String getSituacao() {
+        return situacao;
     }
 
-    public void setAtivo(Integer ativo) {
-        this.ativo = ativo;
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 
-    public FolhaPagamento getFolhaPagamento() {
-        return folhaPagamento;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setFolhaPagamento(FolhaPagamento folhaPagamento) {
-        this.folhaPagamento = folhaPagamento;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override

@@ -1,16 +1,24 @@
 package br.com.uniplan.pim.setappapi.dto;
 
+import br.com.uniplan.pim.setappapi.entity.Unidade;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.Date;
+
 public class VisitanteDto {
 
     private Long id;
+
+    private Date dataHoraCadastro;
 
     private String nome;
 
     private String cpf;
 
-    private String bloco;
+    private String situacao;
 
-    private Integer apartamento;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Unidade unidade;
 
     public Long getId() {
         return id;
@@ -18,6 +26,14 @@ public class VisitanteDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getDataHoraCadastro() {
+        return dataHoraCadastro;
+    }
+
+    public void setDataHoraCadastro(Date dataHoraCadastro) {
+        this.dataHoraCadastro = dataHoraCadastro;
     }
 
     public String getNome() {
@@ -36,19 +52,20 @@ public class VisitanteDto {
         this.cpf = cpf;
     }
 
-    public String getBloco() {
-        return bloco;
+    public String getSituacao() {
+        return situacao;
     }
 
-    public void setBloco(String bloco) {
-        this.bloco = bloco;
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 
-    public Integer getApartamento() {
-        return apartamento;
+    public Unidade getUnidade() {
+        return unidade;
     }
 
-    public void setApartamento(Integer apartamento) {
-        this.apartamento = apartamento;
+    public void setUnidade(Unidade unidade) {
+        this.unidade = unidade;
     }
+
 }

@@ -33,31 +33,31 @@ public class JwtAuthenticationFilterBean extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String header = httpServletRequest.getHeader(HEADER_STRING);
-        String username = null;
+        String usuario = null;
         String authToken = null;
         if (header != null && header.startsWith(TOKEN_PREFIX)) {
             authToken = header.replace(TOKEN_PREFIX, "");
             try {
-                username = jwtTokenUtil.getUsernameFromToken(authToken);
+                usuario = jwtTokenUtil.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {
-                logger.error("an error occured during getting username from token", e);
+                logger.error("Ocorreu um erro ao recuperar o usuário pelo token", e);
             } catch (ExpiredJwtException e) {
-                logger.warn("the token is expired and not valid anymore", e);
+                logger.warn("Token está expirado e já não é mais válido", e);
             } catch (SignatureException e) {
-                logger.error("Authentication Failed. Username or Password not valid.");
+                logger.error("Falha na autenticação. Usuário ou Senha estão incorretos.");
             }
         } else {
-            logger.warn("couldn't find bearer string, will ignore the header");
+            logger.warn("Não foi possível recuperar a String Bearer, o header será ignorado.");
         }
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (usuario != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(usuario);
 
             if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthentication(authToken, SecurityContextHolder.getContext().getAuthentication(), userDetails);
                 //UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                logger.info("authenticated user " + username + ", setting security context");
+                logger.info("Usuário autenticado " + usuario + ", aplicando o contexto de segurança");
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

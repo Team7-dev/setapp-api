@@ -1,5 +1,7 @@
 package br.com.uniplan.pim.setappapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -16,22 +18,19 @@ public class Visitante {
     @Column(name = "DATA_HORA_CADASTRO")
     private Date dataHoraCadastro;
 
-    @Column(name = "DATA_HORA_AGENDAMENTO")
-    private Date dataHoraAgendamento;
+    @Column(name = "NOME")
+    private String nome;
 
-    @Column(name = "DATA_HORA_EXPIRACAO")
-    private Date dataHoraExpiracao;
+    @Column(name = "CPF")
+    private String cpf;
 
-    @Column(name = "STATUS")
-    private String status;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_AUTORIZADOR")
-    private Pessoa autorizador;
+    @Column(name = "SITUACAO")
+    private String situacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_VISITANTE")
-    private Pessoa visitante;
+    @JoinColumn(name = "UNIDADE_ID")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Unidade unidade;
 
     public Long getId() {
         return id;
@@ -49,44 +48,36 @@ public class Visitante {
         this.dataHoraCadastro = dataHoraCadastro;
     }
 
-    public Date getDataHoraAgendamento() {
-        return dataHoraAgendamento;
+    public String getNome() {
+        return nome;
     }
 
-    public void setDataHoraAgendamento(Date dataHoraAgendamento) {
-        this.dataHoraAgendamento = dataHoraAgendamento;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public Date getDataHoraExpiracao() {
-        return dataHoraExpiracao;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setDataHoraExpiracao(Date dataHoraExpiracao) {
-        this.dataHoraExpiracao = dataHoraExpiracao;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
-    public String getStatus() {
-        return status;
+    public String getSituacao() {
+        return situacao;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 
-    public Pessoa getAutorizador() {
-        return autorizador;
+    public Unidade getUnidade() {
+        return unidade;
     }
 
-    public void setAutorizador(Pessoa autorizador) {
-        this.autorizador = autorizador;
-    }
-
-    public Pessoa getVisitante() {
-        return visitante;
-    }
-
-    public void setVisitante(Pessoa visitante) {
-        this.visitante = visitante;
+    public void setUnidade(Unidade unidade) {
+        this.unidade = unidade;
     }
 
     @Override

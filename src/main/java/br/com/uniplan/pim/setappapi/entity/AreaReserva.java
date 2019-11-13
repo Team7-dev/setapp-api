@@ -4,34 +4,34 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "TIPO_RESERVA")
-public class TipoReserva {
+@Table(name = "AREA_RESERVA")
+public class AreaReserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TIPO")
-    private String tipo;
+    @Column(name = "ID")
+    private Long id;
 
-    @Column(name = "NOME")
-    private String nome;
+    @Column(name = "AREA")
+    private String area;
 
     @Column(name = "DESCRICAO")
     private String descricao;
 
-    public String getTipo() {
-        return tipo;
+    public Long getId() {
+        return id;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getArea() {
+        return area;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public String getDescricao() {
@@ -46,13 +46,12 @@ public class TipoReserva {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TipoReserva that = (TipoReserva) o;
-        return Objects.equals(tipo, that.tipo);
+        AreaReserva that = (AreaReserva) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tipo);
+        return Objects.hash(id);
     }
-
 }

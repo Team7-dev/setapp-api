@@ -1,6 +1,9 @@
 package br.com.uniplan.pim.setappapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -12,15 +15,31 @@ public class Usuario {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "DATA_HORA_CADASTRO")
+    private Date dataHoraCadastro;
+
     @Column(name = "USUARIO")
     private String usuario;
 
     @Column(name = "SENHA")
     private String senha;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_PESSOA")
-    private Pessoa pessoa;
+    @Column(name = "NOME")
+    private String nome;
+
+    @Column(name = "CPF")
+    private String cpf;
+
+    @Column(name = "EMAIL")
+    private String email;
+
+    @Column(name = "SITUACAO")
+    private String situacao;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PERFIL_ID")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Perfil perfil;
 
     public Long getId() {
         return id;
@@ -28,6 +47,14 @@ public class Usuario {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getDataHoraCadastro() {
+        return dataHoraCadastro;
+    }
+
+    public void setDataHoraCadastro(Date dataHoraCadastro) {
+        this.dataHoraCadastro = dataHoraCadastro;
     }
 
     public String getUsuario() {
@@ -46,12 +73,44 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public String getNome() {
+        return nome;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package br.com.uniplan.pim.setappapi;
 
-import br.com.uniplan.pim.setappapi.controller.JobController;
+import br.com.uniplan.pim.setappapi.controller.VisitanteController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration
 class ChallengeApiApplicationTests {
 
-	@Autowired
-	private JobController jobController;
+    @Autowired
+    private VisitanteController visitanteController;
 
-	@Test
-	public void contextLoads() {
-		assertThat(jobController).isNotNull();
-	}
+    @Test
+    public void contextLoads() {
+        assertThat(visitanteController).isNotNull();
+    }
 
 }

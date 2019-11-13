@@ -1,5 +1,7 @@
 package br.com.uniplan.pim.setappapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -13,27 +15,25 @@ public class Correspondencia {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "DESCRICAO")
-    private String descricao;
-
     @Column(name = "DATA_HORA_CADASTRO")
     private Date dataHoraCadastro;
 
-    @Column(name = "DATA_HORA_PREVISAO")
-    private Date dataHoraPrevisao;
+    @Column(name = "DESCRICAO")
+    private String descricao;
 
-    @Column(name = "DATA_HORA_POSTADO")
-    private Date dataHoraPostado;
+    @Column(name = "DATA_HORA_RECEBIDA")
+    private Date dataHoraRecebida;
 
-    @Column(name = "DATA_HORA_RECEBIDO")
-    private Date dataHoraRecebido;
+    @Column(name = "DATA_HORA_RETIRADA")
+    private Date dataHoraRetirada;
 
-    @Column(name = "STATUS")
-    private String status;
+    @Column(name = "SITUACAO")
+    private String situacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_PESSOA")
-    private Pessoa pessoa;
+    @JoinColumn(name = "USUARIO_ID")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -41,14 +41,6 @@ public class Correspondencia {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
     public Date getDataHoraCadastro() {
@@ -59,44 +51,44 @@ public class Correspondencia {
         this.dataHoraCadastro = dataHoraCadastro;
     }
 
-    public Date getDataHoraPrevisao() {
-        return dataHoraPrevisao;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDataHoraPrevisao(Date dataHoraPrevisao) {
-        this.dataHoraPrevisao = dataHoraPrevisao;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public Date getDataHoraPostado() {
-        return dataHoraPostado;
+    public Date getDataHoraRecebida() {
+        return dataHoraRecebida;
     }
 
-    public void setDataHoraPostado(Date dataHoraPostado) {
-        this.dataHoraPostado = dataHoraPostado;
+    public void setDataHoraRecebida(Date dataHoraRecebida) {
+        this.dataHoraRecebida = dataHoraRecebida;
     }
 
-    public Date getDataHoraRecebido() {
-        return dataHoraRecebido;
+    public Date getDataHoraRetirada() {
+        return dataHoraRetirada;
     }
 
-    public void setDataHoraRecebido(Date dataHoraRecebido) {
-        this.dataHoraRecebido = dataHoraRecebido;
+    public void setDataHoraRetirada(Date dataHoraRetirada) {
+        this.dataHoraRetirada = dataHoraRetirada;
     }
 
-    public String getStatus() {
-        return status;
+    public String getSituacao() {
+        return situacao;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override

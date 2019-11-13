@@ -1,5 +1,7 @@
 package br.com.uniplan.pim.setappapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -22,16 +24,18 @@ public class Reserva {
     @Column(name = "DATA_HORA_FIM")
     private Date dataHoraFim;
 
-    @Column(name = "STATUS")
-    private String status;
+    @Column(name = "SITUACAO")
+    private String situacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_PESSOA")
-    private Pessoa pessoa;
+    @JoinColumn(name = "AREA_RESERVA_ID")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private AreaReserva areaReserva;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TIPO_RESERVA")
-    private TipoReserva tipoReserva;
+    @JoinColumn(name = "USUARIO_ID")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -65,40 +69,41 @@ public class Reserva {
         this.dataHoraFim = dataHoraFim;
     }
 
-    public String getStatus() {
-        return status;
+    public String getSituacao() {
+        return situacao;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public AreaReserva getAreaReserva() {
+        return areaReserva;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setAreaReserva(AreaReserva areaReserva) {
+        this.areaReserva = areaReserva;
     }
 
-    public TipoReserva getTipoReserva() {
-        return tipoReserva;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setTipoReserva(TipoReserva tipoReserva) {
-        this.tipoReserva = tipoReserva;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Reserva visitante = (Reserva) o;
-        return Objects.equals(id, visitante.id);
+        Reserva reserva = (Reserva) o;
+        return Objects.equals(id, reserva.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }

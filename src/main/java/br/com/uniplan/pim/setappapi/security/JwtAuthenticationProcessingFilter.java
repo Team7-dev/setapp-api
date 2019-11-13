@@ -37,12 +37,12 @@ public class JwtAuthenticationProcessingFilter extends AbstractAuthenticationPro
 
         UsuarioDto credentials = new ObjectMapper().readValue(request.getInputStream(), UsuarioDto.class);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(credentials.getUsername());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(credentials.getUsuario());
 
         return getAuthenticationManager().authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        credentials.getUsername(),
-                        credentials.getPassword(),
+                        credentials.getUsuario(),
+                        credentials.getSenha(),
                         userDetails.getAuthorities()
                 )
         );

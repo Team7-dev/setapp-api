@@ -1,5 +1,7 @@
 package br.com.uniplan.pim.setappapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -13,14 +15,14 @@ public class Ocorrencia {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "DATA_HORA_CADASTRO")
+    private Date dataHoraCadastro;
+
     @Column(name = "OCORRENCIA")
     private String ocorrencia;
 
     @Column(name = "DESCRICAO")
     private String descricao;
-
-    @Column(name = "DATA_HORA_CADASTRO")
-    private Date dataHoraCadastro;
 
     @Column(name = "DATA_HORA_OCORRENCIA")
     private Date dataHoraOcorrencia;
@@ -28,12 +30,13 @@ public class Ocorrencia {
     @Column(name = "DATA_HORA_CONCLUSAO")
     private Date dataHoraConclusao;
 
-    @Column(name = "STATUS")
-    private String status;
+    @Column(name = "SITUACAO")
+    private String situacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_PESSOA")
-    private Pessoa pessoa;
+    @JoinColumn(name = "USUARIO_ID")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -41,6 +44,14 @@ public class Ocorrencia {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getDataHoraCadastro() {
+        return dataHoraCadastro;
+    }
+
+    public void setDataHoraCadastro(Date dataHoraCadastro) {
+        this.dataHoraCadastro = dataHoraCadastro;
     }
 
     public String getOcorrencia() {
@@ -59,14 +70,6 @@ public class Ocorrencia {
         this.descricao = descricao;
     }
 
-    public Date getDataHoraCadastro() {
-        return dataHoraCadastro;
-    }
-
-    public void setDataHoraCadastro(Date dataHoraCadastro) {
-        this.dataHoraCadastro = dataHoraCadastro;
-    }
-
     public Date getDataHoraOcorrencia() {
         return dataHoraOcorrencia;
     }
@@ -83,20 +86,20 @@ public class Ocorrencia {
         this.dataHoraConclusao = dataHoraConclusao;
     }
 
-    public String getStatus() {
-        return status;
+    public String getSituacao() {
+        return situacao;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
