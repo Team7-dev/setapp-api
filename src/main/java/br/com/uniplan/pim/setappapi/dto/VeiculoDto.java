@@ -1,36 +1,24 @@
-package br.com.uniplan.pim.setappapi.entity;
+package br.com.uniplan.pim.setappapi.dto;
 
+import br.com.uniplan.pim.setappapi.entity.Unidade;
+import br.com.uniplan.pim.setappapi.entity.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
 
-@Entity
-@Table(name = "VEICULO")
-public class Veiculo {
+public class VeiculoDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
     private Long id;
 
-    @Column(name = "DATA_HORA_CADASTRO")
     private Date dataHoraCadastro;
 
-    @Column(name = "PLACA")
     private String placa;
 
-    @Column(name = "SITUACAO")
     private String situacao;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UNIDADE_ID")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Unidade unidade;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USUARIO_ID")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Usuario usuario;
 
@@ -81,18 +69,4 @@ public class Veiculo {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Veiculo job = (Veiculo) o;
-        return id.equals(job.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
 }

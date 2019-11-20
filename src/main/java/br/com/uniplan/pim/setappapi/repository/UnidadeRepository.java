@@ -49,23 +49,6 @@ public class UnidadeRepository {
         entityManager.remove(unidade);
     }
 
-    public Long countUnidadesByName(String nome) {
-        String hql = "";
-        hql = hql.concat("select count(unidade) from Unidade unidade where unidade.nome = :nome");
-        Query query = entityManager.createQuery(hql);
-        query.setParameter("nome", nome);
-        return (Long) query.getSingleResult();
-    }
-
-    public Long countUnidadesByNameExceptWithId(String nome, Long id) {
-        String hql = "";
-        hql = hql.concat("select count(unidade) from Unidade unidade where unidade.nome = :nome and unidade.id <> :id");
-        Query query = entityManager.createQuery(hql);
-        query.setParameter("nome", nome);
-        query.setParameter("id", id);
-        return (Long) query.getSingleResult();
-    }
-
     public Unidade findByBlocoApartamento(String bloco, Integer numero) {
         String hql = "";
         hql = hql.concat("select unidade from Unidade unidade where unidade.bloco = :bloco and unidade.numero = :numero");
@@ -75,4 +58,48 @@ public class UnidadeRepository {
         List<Unidade> resultList = query.getResultList();
         return resultList.isEmpty() ? null : resultList.get(0);
     }
+
+    public Long countByUsuario(Long id) {
+        String hql = "";
+        hql = hql.concat("select count(unidade) from Unidade unidade where unidade.usuario.id = :id");
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("id", id);
+        return (Long) query.getSingleResult();
+    }
+
+    public Long countByBlocoUnidade(String bloco, Integer numero) {
+        String hql = "";
+        hql = hql.concat("select count(unidade) from Unidade unidade where unidade.bloco = :bloco and unidade.numero = :numero ");
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("bloco", bloco);
+        query.setParameter("numero", numero);
+        return (Long) query.getSingleResult();
+    }
+
+    public long countByBlocoUnidadeExceptWithId(String bloco, Integer numero, Long id) {
+        String hql = "";
+        hql = hql.concat("select count(unidade) from Unidade unidade where unidade.bloco = :bloco and unidade.numero = :numero and unidade.id <> :id");
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("bloco", bloco);
+        query.setParameter("numero", numero);
+        query.setParameter("id", id);
+        return (Long) query.getSingleResult();
+    }
+
+    public List<Unidade> findUnoccupied() {
+        String hql = "";
+        hql = hql.concat("select unidade from Unidade unidade ");
+        hql = hql.concat("where unidade.situacao = 'VAGO' ");
+        TypedQuery<Unidade> query = entityManager.createQuery(hql, Unidade.class);
+        return query.getResultList();
+    }
+
+    public List<Unidade> findOccupied() {
+        String hql = "";
+        hql = hql.concat("select unidade from Unidade unidade ");
+        hql = hql.concat("where unidade.situacao = 'OCUPADO' ");
+        TypedQuery<Unidade> query = entityManager.createQuery(hql, Unidade.class);
+        return query.getResultList();
+    }
+
 }

@@ -52,4 +52,16 @@ public class UnidadeController {
         unidadeService.deleteById(id);
     }
 
+    @GetMapping(value = "/vagas")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<UnidadeDto> findUnoccupied() {
+        return unidadeService.findUnoccupied();
+    }
+
+    @GetMapping(value = "/ocupadas")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<UnidadeDto> findOccupied() {
+        return unidadeService.findOccupied();
+    }
+
 }

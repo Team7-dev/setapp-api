@@ -3,6 +3,7 @@ package br.com.uniplan.pim.setappapi.service;
 import br.com.uniplan.pim.setappapi.dto.UsuarioDto;
 import br.com.uniplan.pim.setappapi.entity.Usuario;
 import br.com.uniplan.pim.setappapi.exception.*;
+import br.com.uniplan.pim.setappapi.repository.PerfilRepository;
 import br.com.uniplan.pim.setappapi.repository.UsuarioRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import java.util.List;
 @Service
 public class UsuarioService {
 
+    @Autowired
+    private PerfilRepository perfilRepository;
     private UsuarioRepository usuarioRepository;
 
     @Autowired
@@ -25,7 +28,7 @@ public class UsuarioService {
         List<UsuarioDto> usuariosDto = new ArrayList<>();
         List<Usuario> usuarios = usuarioRepository.findAll();
         for (Usuario usuario : usuarios) {
-            usuariosDto.add(createUsuarioDtoFromUsuarioEntity(usuario));
+            usuariosDto.add(createDtoFromEntity(usuario));
         }
         return usuariosDto;
     }
@@ -38,11 +41,11 @@ public class UsuarioService {
         if (usuario == null) {
             throw new ResourceNotFoundException("usuario", id.toString());
         }
-        UsuarioDto usuarioDto = createUsuarioDtoFromUsuarioEntity(usuario);
+        UsuarioDto usuarioDto = createDtoFromEntity(usuario);
         return usuarioDto;
     }
 
-    private UsuarioDto createUsuarioDtoFromUsuarioEntity(Usuario usuario) {
+    private UsuarioDto createDtoFromEntity(Usuario usuario) {
         UsuarioDto usuarioDto = new UsuarioDto();
         usuarioDto.setId(usuario.getId());
         usuarioDto.setDataHoraCadastro(usuario.getDataHoraCadastro());
@@ -58,11 +61,11 @@ public class UsuarioService {
 
     public Long create(UsuarioDto usuarioDto) {
         validateOnCreate(usuarioDto);
-        Usuario usuario = createUsuarioEntityFromUsuarioDto(usuarioDto, false);
+        Usuario usuario = createEntityFromDto(usuarioDto, false);
         return usuarioRepository.persist(usuario);
     }
 
-    private Usuario createUsuarioEntityFromUsuarioDto(UsuarioDto usuarioDto, Boolean edicao) {
+    private Usuario createEntityFromDto(UsuarioDto usuarioDto, Boolean edicao) {
         Usuario usuario = new Usuario();
         if (edicao) {
             usuario.setId(usuarioDto.getId());
@@ -85,13 +88,13 @@ public class UsuarioService {
         if (usuarioDto.getId() != null) {
             throw new FieldMustBeNullException("id");
         }
-        if (usuarioDto.getDataHoraCadastro() != null) {
+        if (usuarioDto.getDataHoraCadastro() == null) {
             throw new FieldCannotBeNullException("dataHoraCadastro");
         }
         if (StringUtils.isBlank(usuarioDto.getUsuario())) {
             throw new FieldCannotBeNullException("usuario");
         } else {
-            Long count = usuarioRepository.countUsuariosByUsername(usuarioDto.getUsuario());
+            Long count = usuarioRepository.countByUsername(usuarioDto.getUsuario());
             if (count > 0) {
                 throw new UniqueFieldContraintException("usuario");
             }
@@ -102,7 +105,7 @@ public class UsuarioService {
         if (StringUtils.isBlank(usuarioDto.getNome())) {
             throw new FieldCannotBeNullException("nome");
         } else {
-            Long count = usuarioRepository.countUsuariosByName(usuarioDto.getNome());
+            Long count = usuarioRepository.countByName(usuarioDto.getNome());
             if (count > 0) {
                 throw new UniqueFieldContraintException("nome");
             }
@@ -110,7 +113,7 @@ public class UsuarioService {
         if (StringUtils.isBlank(usuarioDto.getCpf())) {
             throw new FieldCannotBeNullException("cpf");
         } else {
-            Long count = usuarioRepository.countUsuariosByCpf(usuarioDto.getCpf());
+            Long count = usuarioRepository.countByCpf(usuarioDto.getCpf());
             if (count > 0) {
                 throw new UniqueFieldContraintException("cpf");
             }
@@ -128,7 +131,7 @@ public class UsuarioService {
 
     public void update(UsuarioDto usuarioDto) {
         validateOnUpdate(usuarioDto);
-        Usuario usuario = createUsuarioEntityFromUsuarioDto(usuarioDto, true);
+        Usuario usuario = createEntityFromDto(usuarioDto, true);
         usuarioRepository.merge(usuario);
     }
 
@@ -139,17 +142,17 @@ public class UsuarioService {
         if (usuarioDto.getId() == null) {
             throw new FieldCannotBeNullException("id");
         }
-        if (usuarioDto.getDataHoraCadastro() != null) {
-            throw new FieldCannotBeNullException("dataHoraCadastro");
-        }
         Usuario usuario = usuarioRepository.findById(usuarioDto.getId());
         if (usuario == null) {
             throw new ResourceNotFoundException("usuario", usuarioDto.getId().toString());
         }
+        if (usuarioDto.getDataHoraCadastro() == null) {
+            throw new FieldCannotBeNullException("dataHoraCadastro");
+        }
         if (StringUtils.isBlank(usuarioDto.getUsuario())) {
             throw new FieldCannotBeNullException("usuario");
         } else {
-            Long count = usuarioRepository.countUsuariosByUsername(usuarioDto.getUsuario());
+            Long count = usuarioRepository.countByUsernameExceptWithId(usuarioDto.getUsuario(), usuarioDto.getId());
             if (count > 0) {
                 throw new UniqueFieldContraintException("usuario");
             }
@@ -159,16 +162,11 @@ public class UsuarioService {
         }
         if (StringUtils.isBlank(usuarioDto.getNome())) {
             throw new FieldCannotBeNullException("nome");
-        } else {
-            Long count = usuarioRepository.countUsuariosByName(usuarioDto.getNome());
-            if (count > 0) {
-                throw new UniqueFieldContraintException("nome");
-            }
         }
         if (StringUtils.isBlank(usuarioDto.getCpf())) {
             throw new FieldCannotBeNullException("cpf");
         } else {
-            Long count = usuarioRepository.countUsuariosByCpf(usuarioDto.getCpf());
+            Long count = usuarioRepository.countByCpfExceptWithId(usuarioDto.getCpf(), usuarioDto.getId());
             if (count > 0) {
                 throw new UniqueFieldContraintException("cpf");
             }
@@ -181,6 +179,8 @@ public class UsuarioService {
         }
         if (usuarioDto.getPerfil() == null) {
             throw new FieldCannotBeNullException("perfil");
+        } else {
+            usuarioDto.setPerfil(perfilRepository.findByPerfil(usuarioDto.getPerfil().getPerfil()));
         }
     }
 
@@ -195,4 +195,12 @@ public class UsuarioService {
         usuarioRepository.remove(usuario);
     }
 
+    public List<UsuarioDto> findActives() {
+        List<UsuarioDto> usuariosDto = new ArrayList<>();
+        List<Usuario> usuarios = usuarioRepository.findActives();
+        for (Usuario usuario : usuarios) {
+            usuariosDto.add(createDtoFromEntity(usuario));
+        }
+        return usuariosDto;
+    }
 }

@@ -3,13 +3,13 @@ package br.com.uniplan.pim.setappapi.dto;
 import br.com.uniplan.pim.setappapi.entity.Perfil;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class UsuarioDto {
 
     private Long id;
 
-    private LocalDateTime dataHoraCadastro;
+    private Date dataHoraCadastro;
 
     private String usuario;
 
@@ -34,11 +34,11 @@ public class UsuarioDto {
         this.id = id;
     }
 
-    public LocalDateTime getDataHoraCadastro() {
+    public Date getDataHoraCadastro() {
         return dataHoraCadastro;
     }
 
-    public void setDataHoraCadastro(LocalDateTime dataHoraCadastro) {
+    public void setDataHoraCadastro(Date dataHoraCadastro) {
         this.dataHoraCadastro = dataHoraCadastro;
     }
 

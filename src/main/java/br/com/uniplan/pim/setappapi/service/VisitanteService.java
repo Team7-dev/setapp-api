@@ -93,7 +93,7 @@ public class VisitanteService {
         if (StringUtils.isBlank(visitanteDto.getNome())) {
             throw new FieldCannotBeNullException("nome");
         } else {
-            Long count = visitanteRepository.countVisitantesByName(visitanteDto.getNome());
+            Long count = visitanteRepository.countByName(visitanteDto.getNome());
             if (count > 0) {
                 throw new UniqueFieldContraintException("nome");
             }
@@ -138,7 +138,7 @@ public class VisitanteService {
         if (StringUtils.isBlank(visitanteDto.getNome())) {
             throw new FieldCannotBeNullException("nome");
         } else {
-            Long count = visitanteRepository.countVisitantesByNameExceptWithId(visitanteDto.getNome(), visitanteDto.getId());
+            Long count = visitanteRepository.countByNameExceptWithId(visitanteDto.getNome(), visitanteDto.getId());
             if (count > 0) {
                 throw new UniqueFieldContraintException("nome");
             }

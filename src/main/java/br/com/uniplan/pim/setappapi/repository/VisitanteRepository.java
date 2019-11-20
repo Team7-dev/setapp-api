@@ -49,7 +49,7 @@ public class VisitanteRepository {
         entityManager.remove(visitante);
     }
 
-    public Long countVisitantesByName(String nome) {
+    public Long countByName(String nome) {
         String hql = "";
         hql = hql.concat("select count(visitante) from Visitante visitante where visitante.nome = :nome");
         Query query = entityManager.createQuery(hql);
@@ -57,7 +57,7 @@ public class VisitanteRepository {
         return (Long) query.getSingleResult();
     }
 
-    public Long countVisitantesByNameExceptWithId(String nome, Long id) {
+    public Long countByNameExceptWithId(String nome, Long id) {
         String hql = "";
         hql = hql.concat("select count(visitante) from Visitante visitante where visitante.nome = :nome and visitante.id <> :id");
         Query query = entityManager.createQuery(hql);

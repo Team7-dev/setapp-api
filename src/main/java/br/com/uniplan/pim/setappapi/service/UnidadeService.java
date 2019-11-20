@@ -2,10 +2,7 @@ package br.com.uniplan.pim.setappapi.service;
 
 import br.com.uniplan.pim.setappapi.dto.UnidadeDto;
 import br.com.uniplan.pim.setappapi.entity.Unidade;
-import br.com.uniplan.pim.setappapi.exception.FieldCannotBeNullException;
-import br.com.uniplan.pim.setappapi.exception.FieldMustBeNullException;
-import br.com.uniplan.pim.setappapi.exception.ResourceCannotBeNullException;
-import br.com.uniplan.pim.setappapi.exception.ResourceNotFoundException;
+import br.com.uniplan.pim.setappapi.exception.*;
 import br.com.uniplan.pim.setappapi.repository.UnidadeRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +25,7 @@ public class UnidadeService {
         List<UnidadeDto> unidadesDto = new ArrayList<>();
         List<Unidade> unidades = unidadeRepository.findAll();
         for (Unidade unidade : unidades) {
-            unidadesDto.add(createUnidadeDtoFromUnidadeEntity(unidade));
+            unidadesDto.add(createDtoFromEntity(unidade));
         }
         return unidadesDto;
     }
@@ -41,11 +38,11 @@ public class UnidadeService {
         if (unidade == null) {
             throw new ResourceNotFoundException("unidade", id.toString());
         }
-        UnidadeDto unidadeDto = createUnidadeDtoFromUnidadeEntity(unidade);
+        UnidadeDto unidadeDto = createDtoFromEntity(unidade);
         return unidadeDto;
     }
 
-    private UnidadeDto createUnidadeDtoFromUnidadeEntity(Unidade unidade) {
+    private UnidadeDto createDtoFromEntity(Unidade unidade) {
         UnidadeDto unidadeDto = new UnidadeDto();
         unidadeDto.setId(unidade.getId());
         unidadeDto.setDataHoraCadastro(unidade.getDataHoraCadastro());
@@ -58,11 +55,11 @@ public class UnidadeService {
 
     public Long create(UnidadeDto unidadeDto) {
         validateOnCreate(unidadeDto);
-        Unidade unidade = createUnidadeEntityFromUnidadeDto(unidadeDto, false);
+        Unidade unidade = createEntityFromDto(unidadeDto, false);
         return unidadeRepository.persist(unidade);
     }
 
-    private Unidade createUnidadeEntityFromUnidadeDto(UnidadeDto unidadeDto, Boolean edicao) {
+    private Unidade createEntityFromDto(UnidadeDto unidadeDto, Boolean edicao) {
         Unidade unidade = new Unidade();
         if (edicao) {
             unidade.setId(unidadeDto.getId());
@@ -82,26 +79,38 @@ public class UnidadeService {
         if (unidadeDto.getId() != null) {
             throw new FieldMustBeNullException("id");
         }
-        if (unidadeDto.getDataHoraCadastro() != null) {
+        if (unidadeDto.getDataHoraCadastro() == null) {
             throw new FieldCannotBeNullException("dataHoraCadastro");
         }
         if (StringUtils.isBlank(unidadeDto.getBloco())) {
             throw new FieldCannotBeNullException("bloco");
         }
-        if (unidadeDto.getNumero() != null) {
+        if (unidadeDto.getNumero() == null) {
             throw new FieldCannotBeNullException("numero");
+        }
+        if (StringUtils.isNotBlank(unidadeDto.getBloco()) && unidadeDto.getNumero() != null) {
+            long count = unidadeRepository.countByBlocoUnidade(unidadeDto.getBloco(), unidadeDto.getNumero());
+            if (count > 0) {
+                throw new UniqueFieldContraintException("bloco e numero");
+            }
         }
         if (StringUtils.isBlank(unidadeDto.getSituacao())) {
             throw new FieldCannotBeNullException("situacao");
-        }
-        if (unidadeDto.getUsuario() == null) {
-            throw new FieldCannotBeNullException("usuario");
+        } else if ("OCUPADO".equals(unidadeDto.getSituacao())) {
+            if (unidadeDto.getUsuario() == null) {
+                throw new FieldCannotBeNullException("usuario");
+            } else {
+                long count = unidadeRepository.countByUsuario(unidadeDto.getUsuario().getId());
+                if (count > 0) {
+                    throw new UniqueFieldContraintException("usuario");
+                }
+            }
         }
     }
 
     public void update(UnidadeDto unidadeDto) {
         validateOnUpdate(unidadeDto);
-        Unidade unidade = createUnidadeEntityFromUnidadeDto(unidadeDto, true);
+        Unidade unidade = createEntityFromDto(unidadeDto, true);
         unidadeRepository.merge(unidade);
     }
 
@@ -112,24 +121,36 @@ public class UnidadeService {
         if (unidadeDto.getId() == null) {
             throw new FieldCannotBeNullException("id");
         }
-        if (unidadeDto.getDataHoraCadastro() != null) {
-            throw new FieldCannotBeNullException("dataHoraCadastro");
-        }
         Unidade unidade = unidadeRepository.findById(unidadeDto.getId());
         if (unidade == null) {
             throw new ResourceNotFoundException("unidade", unidadeDto.getId().toString());
         }
+        if (unidadeDto.getDataHoraCadastro() == null) {
+            throw new FieldCannotBeNullException("dataHoraCadastro");
+        }
         if (StringUtils.isBlank(unidadeDto.getBloco())) {
             throw new FieldCannotBeNullException("bloco");
         }
-        if (unidadeDto.getNumero() != null) {
+        if (unidadeDto.getNumero() == null) {
             throw new FieldCannotBeNullException("numero");
+        }
+        if (StringUtils.isNotBlank(unidadeDto.getBloco()) && unidadeDto.getNumero() != null) {
+            long count = unidadeRepository.countByBlocoUnidadeExceptWithId(unidadeDto.getBloco(), unidadeDto.getNumero(), unidadeDto.getId());
+            if (count > 0) {
+                throw new UniqueFieldContraintException("bloco e numero");
+            }
         }
         if (StringUtils.isBlank(unidadeDto.getSituacao())) {
             throw new FieldCannotBeNullException("situacao");
-        }
-        if (unidadeDto.getUsuario() == null) {
-            throw new FieldCannotBeNullException("usuario");
+        } else if ("OCUPADO".equals(unidadeDto.getSituacao())) {
+            if (unidadeDto.getUsuario() == null) {
+                throw new FieldCannotBeNullException("usuario");
+            } else {
+                long count = unidadeRepository.countByUsuario(unidadeDto.getUsuario().getId());
+                if (count > 0) {
+                    throw new UniqueFieldContraintException("usuario");
+                }
+            }
         }
     }
 
@@ -147,4 +168,23 @@ public class UnidadeService {
     public Unidade findByBlocoApartamento(String bloco, Integer numero) {
         return unidadeRepository.findByBlocoApartamento(bloco, numero);
     }
+
+    public List<UnidadeDto> findUnoccupied() {
+        List<UnidadeDto> unidadesDto = new ArrayList<>();
+        List<Unidade> unidades = unidadeRepository.findUnoccupied();
+        for (Unidade unidade : unidades) {
+            unidadesDto.add(createDtoFromEntity(unidade));
+        }
+        return unidadesDto;
+    }
+
+    public List<UnidadeDto> findOccupied() {
+        List<UnidadeDto> unidadesDto = new ArrayList<>();
+        List<Unidade> unidades = unidadeRepository.findOccupied();
+        for (Unidade unidade : unidades) {
+            unidadesDto.add(createDtoFromEntity(unidade));
+        }
+        return unidadesDto;
+    }
+
 }

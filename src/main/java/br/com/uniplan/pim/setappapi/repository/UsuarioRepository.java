@@ -49,7 +49,7 @@ public class UsuarioRepository {
         entityManager.remove(usuario);
     }
 
-    public Long countUsuariosByName(String nome) {
+    public Long countByName(String nome) {
         String hql = "";
         hql = hql.concat("select count(usuario) from Usuario usuario where usuario.nome = :nome");
         Query query = entityManager.createQuery(hql);
@@ -57,7 +57,7 @@ public class UsuarioRepository {
         return (Long) query.getSingleResult();
     }
 
-    public Long countUsuariosByNameExceptWithId(String nome, Long id) {
+    public Long countByNameExceptWithId(String nome, Long id) {
         String hql = "";
         hql = hql.concat("select count(usuario) from Usuario usuario where usuario.nome = :nome and usuario.id <> :id");
         Query query = entityManager.createQuery(hql);
@@ -66,7 +66,7 @@ public class UsuarioRepository {
         return (Long) query.getSingleResult();
     }
 
-    public Long countUsuariosByUsername(String usuario) {
+    public Long countByUsername(String usuario) {
         String hql = "";
         hql = hql.concat("select count(usuario) from Usuario usuario where usuario.usuario = :usuario");
         Query query = entityManager.createQuery(hql);
@@ -74,11 +74,38 @@ public class UsuarioRepository {
         return (Long) query.getSingleResult();
     }
 
-    public Long countUsuariosByCpf(String cpf) {
+    public Long countByUsernameExceptWithId(String usuario, Long id) {
+        String hql = "";
+        hql = hql.concat("select count(usuario) from Usuario usuario where usuario.usuario = :usuario and usuario.id <> :id");
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("usuario", usuario);
+        query.setParameter("id", id);
+        return (Long) query.getSingleResult();
+    }
+
+    public Long countByCpf(String cpf) {
         String hql = "";
         hql = hql.concat("select count(usuario) from Usuario usuario where usuario.cpf = :cpf");
         Query query = entityManager.createQuery(hql);
         query.setParameter("cpf", cpf);
         return (Long) query.getSingleResult();
     }
+
+    public Long countByCpfExceptWithId(String cpf, Long id) {
+        String hql = "";
+        hql = hql.concat("select count(usuario) from Usuario usuario where usuario.cpf = :cpf and usuario.id <> : id");
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("cpf", cpf);
+        query.setParameter("id", id);
+        return (Long) query.getSingleResult();
+    }
+
+    public List<Usuario> findActives() {
+        String hql = "";
+        hql = hql.concat("select usuario from Usuario usuario ");
+        hql = hql.concat("where usuario.situacao = 'ATIVO' ");
+        TypedQuery<Usuario> query = entityManager.createQuery(hql, Usuario.class);
+        return query.getResultList();
+    }
+
 }

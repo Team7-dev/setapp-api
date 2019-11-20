@@ -2,7 +2,6 @@ package br.com.uniplan.pim.setappapi.controller;
 
 import br.com.uniplan.pim.setappapi.dto.UsuarioDto;
 import br.com.uniplan.pim.setappapi.service.UsuarioService;
-import br.com.uniplan.pim.setappapi.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,6 +50,12 @@ public class UsuarioController {
     @PreAuthorize("hasRole('ADMIN')")
     public void delete(@PathVariable("id") Long id) {
         usuarioService.deleteById(id);
+    }
+
+    @GetMapping(value = "/ativos")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<UsuarioDto> findActives() {
+        return usuarioService.findActives();
     }
 
 }
