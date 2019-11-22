@@ -126,6 +126,8 @@ public class UsuarioService {
         }
         if (usuarioDto.getPerfil() == null) {
             throw new FieldCannotBeNullException("perfil");
+        } else {
+            usuarioDto.setPerfil(perfilRepository.findByPerfil(usuarioDto.getPerfil().getPerfil()));
         }
     }
 
