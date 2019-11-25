@@ -1,34 +1,26 @@
-package br.com.uniplan.pim.setappapi.entity;
+package br.com.uniplan.pim.setappapi.dto;
 
+import br.com.uniplan.pim.setappapi.entity.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
 
-@Entity
-@Table(name = "COMUNICADO")
-public class Comunicado {
+public class OcorrenciaDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
     private Long id;
 
-    @Column(name = "DATA_HORA_CADASTRO")
     private Date dataHoraCadastro;
 
-    @Column(name = "TITULO")
-    private String titulo;
+    private String ocorrencia;
 
-    @Column(name = "DESCRICAO")
     private String descricao;
 
-    @Column(name = "SITUACAO")
+    private Date dataHoraOcorrencia;
+
+    private Date dataHoraConclusao;
+
     private String situacao;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USUARIO_ID")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Usuario usuario;
 
@@ -48,12 +40,12 @@ public class Comunicado {
         this.dataHoraCadastro = dataHoraCadastro;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getOcorrencia() {
+        return ocorrencia;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setOcorrencia(String ocorrencia) {
+        this.ocorrencia = ocorrencia;
     }
 
     public String getDescricao() {
@@ -62,6 +54,22 @@ public class Comunicado {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Date getDataHoraOcorrencia() {
+        return dataHoraOcorrencia;
+    }
+
+    public void setDataHoraOcorrencia(Date dataHoraOcorrencia) {
+        this.dataHoraOcorrencia = dataHoraOcorrencia;
+    }
+
+    public Date getDataHoraConclusao() {
+        return dataHoraConclusao;
+    }
+
+    public void setDataHoraConclusao(Date dataHoraConclusao) {
+        this.dataHoraConclusao = dataHoraConclusao;
     }
 
     public String getSituacao() {
@@ -78,18 +86,5 @@ public class Comunicado {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comunicado visitante = (Comunicado) o;
-        return Objects.equals(id, visitante.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }
