@@ -82,27 +82,27 @@ public class VeiculoService {
         if (veiculoDto.getDataHoraCadastro() == null) {
             throw new FieldCannotBeNullException("dataHoraCadastro");
         }
-        if (StringUtils.isBlank(veiculoDto.getPlaca())) {
-            throw new FieldCannotBeNullException("placa");
-        }
         if (StringUtils.isBlank(veiculoDto.getSituacao())) {
             throw new FieldCannotBeNullException("situacao");
         } else if ("OCUPADO".equals(veiculoDto.getSituacao())) {
-            if (veiculoDto.getUsuario() == null) {
-                throw new FieldCannotBeNullException("usuario");
-            } else {
-                long count = veiculoRepository.countByUsuario(veiculoDto.getUsuario().getId());
-                if (count > 0) {
-                    throw new UniqueFieldContraintException("usuario");
-                }
+            if (StringUtils.isBlank(veiculoDto.getPlaca())) {
+                throw new FieldCannotBeNullException("placa");
             }
-            if (veiculoDto.getUnidade() == null) {
-                throw new FieldCannotBeNullException("unidade");
-            } else {
-                long count = veiculoRepository.countByUnidade(veiculoDto.getUnidade().getId());
-                if (count > 0) {
-                    throw new UniqueFieldContraintException("unidade");
-                }
+        }
+        if (veiculoDto.getUnidade() == null) {
+            throw new FieldCannotBeNullException("unidade");
+        } else {
+            long count = veiculoRepository.countByUnidade(veiculoDto.getUnidade().getId());
+            if (count > 0) {
+                throw new UniqueFieldContraintException("unidade");
+            }
+        }
+        if (veiculoDto.getUsuario() == null) {
+            throw new FieldCannotBeNullException("usuario");
+        } else {
+            long count = veiculoRepository.countByUsuario(veiculoDto.getUsuario().getId());
+            if (count > 0) {
+                throw new UniqueFieldContraintException("usuario");
             }
         }
     }
@@ -127,27 +127,27 @@ public class VeiculoService {
         if (veiculoDto.getDataHoraCadastro() == null) {
             throw new FieldCannotBeNullException("dataHoraCadastro");
         }
-        if (StringUtils.isBlank(veiculoDto.getPlaca())) {
-            throw new FieldCannotBeNullException("placa");
-        }
         if (StringUtils.isBlank(veiculoDto.getSituacao())) {
             throw new FieldCannotBeNullException("situacao");
         } else if ("OCUPADO".equals(veiculoDto.getSituacao())) {
-            if (veiculoDto.getUsuario() == null) {
-                throw new FieldCannotBeNullException("usuario");
-            } else {
-                long count = veiculoRepository.countByUsuarioExceptWithId(veiculoDto.getUsuario().getId(), veiculoDto.getId());
-                if (count > 0) {
-                    throw new UniqueFieldContraintException("usuario");
-                }
+            if (StringUtils.isBlank(veiculoDto.getPlaca())) {
+                throw new FieldCannotBeNullException("placa");
             }
-            if (veiculoDto.getUnidade() == null) {
-                throw new FieldCannotBeNullException("unidade");
-            } else {
-                long count = veiculoRepository.countByUnidadeExceptWithId(veiculoDto.getUnidade().getId(), veiculoDto.getId());
-                if (count > 0) {
-                    throw new UniqueFieldContraintException("unidade");
-                }
+        }
+        if (veiculoDto.getUnidade() == null) {
+            throw new FieldCannotBeNullException("unidade");
+        } else {
+            long count = veiculoRepository.countByUnidadeExceptWithId(veiculoDto.getUnidade().getId(), veiculoDto.getId());
+            if (count > 0) {
+                throw new UniqueFieldContraintException("unidade");
+            }
+        }
+        if (veiculoDto.getUsuario() == null) {
+            throw new FieldCannotBeNullException("usuario");
+        } else {
+            long count = veiculoRepository.countByUsuarioExceptWithId(veiculoDto.getUsuario().getId(), veiculoDto.getId());
+            if (count > 0) {
+                throw new UniqueFieldContraintException("usuario");
             }
         }
     }
