@@ -5,22 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 
-public class AssembleiaDto {
+public class AreaReservaDto {
 
     private Long id;
 
-    private Date dataHoraCadastro;
+    private String area;
 
-    private String motivo;
-
-    private Date dataHoraAgendamento;
-
-    private Date dataHoraConclusao;
-
-    private String situacao;
-
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Usuario usuario;
+    private String descricao;
 
     public Long getId() {
         return id;
@@ -30,51 +21,19 @@ public class AssembleiaDto {
         this.id = id;
     }
 
-    public Date getDataHoraCadastro() {
-        return dataHoraCadastro;
+    public String getArea() {
+        return area;
     }
 
-    public void setDataHoraCadastro(Date dataHoraCadastro) {
-        this.dataHoraCadastro = dataHoraCadastro;
+    public void setArea(String area) {
+        this.area = area;
     }
 
-    public String getMotivo() {
-        return motivo;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
-    }
-
-    public Date getDataHoraAgendamento() {
-        return dataHoraAgendamento;
-    }
-
-    public void setDataHoraAgendamento(Date dataHoraAgendamento) {
-        this.dataHoraAgendamento = dataHoraAgendamento;
-    }
-
-    public Date getDataHoraConclusao() {
-        return dataHoraConclusao;
-    }
-
-    public void setDataHoraConclusao(Date dataHoraConclusao) {
-        this.dataHoraConclusao = dataHoraConclusao;
-    }
-
-    public String getSituacao() {
-        return situacao;
-    }
-
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }

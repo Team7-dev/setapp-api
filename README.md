@@ -1,20 +1,31 @@
-# Getting Started
+# SetApp API
 
-### Reference Documentation
-For further reference, please consider the following sections:
+Projeto backend contendo os serviços REST para sistema de soluções condominiais.
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.2.0.RELEASE/maven-plugin/)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.2.0.RELEASE/reference/htmlsingle/#boot-features-jpa-and-spring-data)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.2.0.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/docs/2.2.0.RELEASE/reference/htmlsingle/#using-boot-devtools)
+## Primeiros Passos
 
-### Guides
-The following guides illustrate how to use some features concretely:
+### Pré-requisitos
 
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
-* [Accessing data with MySQL](https://spring.io/guides/gs/accessing-data-mysql/)
+* [Java - JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* [MySQL](https://dev.mysql.com/downloads/)
 
+### Instalação
+
+Criar o banco de dados com o arquivo "DB-SetApp.sql", localizado no diretório "setapp-api\src\main\resources".
+Executar o comando para definir o horário do banco de dados:
+
+SET @@global.time_zone = '+3:00';
+
+Baixar e executar o código fonte conforme orientado na documentação do Spring (https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-running-your-application.html)
+
+## Feito com
+
+* [Sprint Boot 2.2.0](https://spring.io/)
+
+## Autores
+
+* **Felipe Fragoso Carneiro** - felipe.fragosoc@gmail.com
+* **Karen Bianca Iglecia Catharino** - karen.catharino@gmail.com
+* **Ivaldo Pereira de Sousa** - ivapersou@hotmail.com
+* **Ewerton Silva Barbosa** - ewertonsilva_spkr@hotmail.com
+* **Davi Marçal Duarte de Castro** - daviduartedf@gmail.com

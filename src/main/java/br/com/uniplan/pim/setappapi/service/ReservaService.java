@@ -3,6 +3,7 @@ package br.com.uniplan.pim.setappapi.service;
 import br.com.uniplan.pim.setappapi.dto.ReservaDto;
 import br.com.uniplan.pim.setappapi.entity.Reserva;
 import br.com.uniplan.pim.setappapi.exception.*;
+import br.com.uniplan.pim.setappapi.repository.AreaReservaRepository;
 import br.com.uniplan.pim.setappapi.repository.ReservaRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Service
 public class ReservaService {
-
+    
     private ReservaRepository reservaRepository;
 
     @Autowired

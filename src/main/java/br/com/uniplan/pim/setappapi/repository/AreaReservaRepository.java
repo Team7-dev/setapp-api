@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.awt.geom.Area;
 import java.util.List;
 
 @Repository
@@ -13,6 +14,13 @@ public class AreaReservaRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    public List<AreaReserva> findAll() {
+        String hql = "";
+        hql = hql.concat("select areaReserva from AreaReserva areaReserva ");
+        TypedQuery<AreaReserva> query = entityManager.createQuery(hql, AreaReserva.class);
+        return query.getResultList();
+    }
 
     public AreaReserva findById(Long id) {
         String hql = "";
